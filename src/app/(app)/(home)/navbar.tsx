@@ -74,17 +74,17 @@ export default function Navbar() {
         ))}
       </div>
 
-      <div className='hidden lg:flex'>
+      <div className='hidden lg:flex items-center'>
         <Button
           asChild
           variant={'secondary'}
-          className='border-l border-b-0 border-t-0 border-r-0 px-12 rounded-none bg-white hover:bg-pink-400 transition-colors text-lg'
+          className='border-l border-b-0 border-t-0 border-r-0 px-12 rounded-none bg-white hover:bg-pink-400 transition-colors text-lg h-full'
         >
           <Link href='/sign-in'>Log in</Link>
         </Button>
         <Button
           asChild
-          className='border-l border-b-0 border-t-0 border-r-0 px-12 rounded-none bg-black text-white hover:text-black hover:bg-pink-400 transition-colors text-lg'
+          className='border-l border-b-0 border-t-0 border-r-0 px-12 rounded-none bg-black text-white hover:text-black hover:bg-pink-400 transition-colors text-lg h-full'
         >
           <Link href='/sign-up'>Start selling</Link>
         </Button>
