@@ -5,6 +5,7 @@ import configPromise from '@payload-config'
 import Footer from './footer'
 import Navbar from './navbar'
 import { SearchFilters } from './search-filters'
+import { CustomCategory } from './types'
 
 interface LayoutProps {
   children: React.ReactNode
@@ -26,7 +27,7 @@ export default async function Layout({ children }: LayoutProps) {
     },
   })
 
-  const formatteData = data.docs.map(doc => ({
+  const formatteData: CustomCategory[] = data.docs.map(doc => ({
     ...doc,
     subcategories: (doc.subcategories?.docs ?? []).map(doc => ({
       // Because of 'depth: 1' we know doc will be type of Category
@@ -34,8 +35,6 @@ export default async function Layout({ children }: LayoutProps) {
       subcategories: undefined,
     })),
   }))
-
-  console.log({ formatteData })
 
   return (
     <div className='flex flex-col min-h-screen'>
