@@ -10,6 +10,12 @@ interface LayoutProps {
   children: React.ReactNode
 }
 
+/**
+ * Loads top-level categories, flattens their immediate subcategories, and renders the application layout with navigation, search filters, main content, and footer.
+ *
+ * @param children - The page content to render inside the layout's main content area.
+ * @returns The layout element containing Navbar, SearchFilters populated with formatted top-level categories (each subcategory flattened to a Category shape), the main content wrapper rendering `children`, and Footer.
+ */
 export default async function Layout({ children }: LayoutProps) {
   const payload = await getPayload({
     config: configPromise,
