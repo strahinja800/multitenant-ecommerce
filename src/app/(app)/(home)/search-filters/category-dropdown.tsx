@@ -13,6 +13,16 @@ interface Props {
   isNavigationHovered?: boolean
 }
 
+/**
+ * Render a category button with an optional hover-activated subcategory dropdown.
+ *
+ * Renders a rounded Button labeled with the category name, toggles a decorative cue and a positioned SubcategoryMenu when the category has subcategories and the user hovers the item.
+ *
+ * @param category - Category data, including an optional `subcategories` array used to populate the dropdown
+ * @param isActive - When true, apply active styling to the button
+ * @param isNavigationHovered - When true, suppress the component's active styling override
+ * @returns A React element containing the category button and, if present, a positioned subcategory menu controlled by hover state
+ */
 export default function CategoryDropdown({
   category,
   isActive,

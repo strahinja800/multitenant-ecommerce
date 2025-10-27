@@ -10,6 +10,14 @@ interface Props {
   }
 }
 
+/**
+ * Render a positioned dropdown menu of a category's subcategories when the menu is open and the category has subcategories.
+ *
+ * @param category - Category object containing `subcategories` and optional `color` used as the menu background
+ * @param isOpen - Whether the submenu should be visible
+ * @param position - Coordinates `{ top, left }` used to position the fixed menu
+ * @returns A React element for the positioned subcategory menu, or `null` when the menu is not rendered
+ */
 export default function SubcategoryMenu({ category, isOpen, position }: Props) {
   if (
     !isOpen ||

@@ -5,6 +5,12 @@ interface Props {
   disabled?: boolean
 }
 
+/**
+ * Renders a search input with a leading search icon.
+ *
+ * @param disabled - When true, disables the input to prevent user interaction.
+ * @returns The search input element with an embedded leading icon.
+ */
 export default function SearchInput({ disabled }: Props) {
   return (
     <div className='flex items-center gap-2 w-full'>

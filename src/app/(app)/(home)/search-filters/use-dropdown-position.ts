@@ -1,9 +1,21 @@
 import { RefObject } from 'react'
 
-//TODO: implement dropdown positioning logic
+/**
+ * Compute pixel coordinates to place a dropdown anchored to the provided element.
+ *
+ * If the referenced element is not available, returns { top: 0, left: 0 }.
+ *
+ * @param ref - A RefObject pointing to the anchor HTMLDivElement (may be `null`)
+ * @returns An object exposing `getDropdownPosition`, which returns the dropdown's `top` and `left` coordinates (pixels) for placement within the viewport
+ */
 export default function useDropdownPosition(
   ref: RefObject<HTMLDivElement | null> | RefObject<HTMLDivElement>
 ) {
+  /**
+   * Compute pixel coordinates for placing a dropdown anchored to the referenced element, adjusted to remain inside the viewport.
+   *
+   * @returns An object with `top` and `left` pixel coordinates for the dropdown. If the reference element is not available, returns `{ top: 0, left: 0 }`. When necessary, `left` is adjusted to prevent overflow and is clamped with a 16px viewport padding.
+   */
   function getDropdownPosition() {
     if (!ref.current) return { top: 0, left: 0 }
 
