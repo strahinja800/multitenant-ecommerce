@@ -20,7 +20,7 @@ export default function SubcategoryMenu({ category, isOpen, position }: Props) {
     return null // Do not render if not open or no subcategories
   }
 
-  const bgColor = category.color || '#f5f5f5'
+  const backgroundColor = category.color || '#f5f5f5'
 
   return (
     <div
@@ -31,13 +31,13 @@ export default function SubcategoryMenu({ category, isOpen, position }: Props) {
       <div className='h-3 w-60' />
       <div
         className='w-60 text-black rounded-md overflow-hidden border shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] -translate-x-0.5 -translate-y-0.5'
-        style={{ backgroundColor: bgColor }} // the color we set for the category
+        style={{ backgroundColor }} // the color we set for the category
       >
         <div>
           {category.subcategories.map((subcategory: Category) => (
             <Link
               className='w-full text-left p-4 hover:bg-black hover:text-white flex justify-between items-center underline font-medium'
-              href={''}
+              href={`/${category.slug}/${subcategory.slug}`}
               key={subcategory.id}
             >
               {subcategory.name}
