@@ -1,9 +1,9 @@
 import { Category } from '@/payload-types'
 import Link from 'next/link'
-import { CustomCategory } from '../types'
+import { CategoriesGetManyOutput } from '../types'
 
 interface Props {
-  category: CustomCategory
+  category: CategoriesGetManyOutput
   isOpen: boolean
   position: {
     top: number

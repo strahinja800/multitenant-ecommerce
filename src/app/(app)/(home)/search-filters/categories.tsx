@@ -1,7 +1,7 @@
 'use client'
 
 import CategoryDropdown from './category-dropdown'
-import { CustomCategory } from '../types'
+import { CategoriesGetManyOutput } from '../types'
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
@@ -9,7 +9,7 @@ import { ListFilterIcon } from 'lucide-react'
 import CategoriesSidebar from './categories-sidebar'
 
 interface Props {
-  data: CustomCategory[]
+  data: CategoriesGetManyOutput[]
 }
 
 export default function Categories({ data }: Props) {
@@ -69,7 +69,6 @@ export default function Categories({ data }: Props) {
       <CategoriesSidebar
         open={isSidebarOpen}
         onOpenChange={setIsSidebarOpen}
-        data={data}
       />
       {/* Hidden div to measure all items */}
       <div
@@ -77,7 +76,7 @@ export default function Categories({ data }: Props) {
         className='absolute opacity-0 pointer-events-none flex'
         style={{ position: 'fixed', top: -9999, left: -9999 }}
       >
-        {data.map((category: CustomCategory) => (
+        {data.map((category: CategoriesGetManyOutput) => (
           <div key={category.id}>
             <CategoryDropdown
               category={category}
@@ -95,15 +94,17 @@ export default function Categories({ data }: Props) {
         onMouseEnter={() => setIsAnyHovered(true)}
         onMouseLeave={() => setIsAnyHovered(false)}
       >
-        {data.slice(0, visibleCount).map((category: CustomCategory) => (
-          <div key={category.id}>
-            <CategoryDropdown
-              category={category}
-              isActive={activeCategory === category.slug}
-              isNavigationHovered={isAnyHovered}
-            />
-          </div>
-        ))}
+        {data
+          .slice(0, visibleCount)
+          .map((category: CategoriesGetManyOutput) => (
+            <div key={category.id}>
+              <CategoryDropdown
+                category={category}
+                isActive={activeCategory === category.slug}
+                isNavigationHovered={isAnyHovered}
+              />
+            </div>
+          ))}
         <div
           className='shrink-0'
           ref={viewAllRef}
