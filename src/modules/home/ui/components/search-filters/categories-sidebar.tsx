@@ -4,7 +4,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet'
-import { CategoriesGetManyOutput } from '../types'
+import { CategoriesGetManyOutput } from '../../../../types'
 import { useState } from 'react'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'

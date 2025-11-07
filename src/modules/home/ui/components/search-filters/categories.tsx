@@ -1,7 +1,7 @@
 'use client'
 
 import CategoryDropdown from './category-dropdown'
-import { CategoriesGetManyOutput } from '../types'
+import { CategoriesGetManyOutput } from '@/modules/types'
 import { useEffect, useRef, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'

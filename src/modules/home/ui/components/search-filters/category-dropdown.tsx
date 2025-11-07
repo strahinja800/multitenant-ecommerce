@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils'
 import { useRef, useState } from 'react'
 import useDropdownPosition from './use-dropdown-position'
 import SubcategoryMenu from './subcategory-menu'
-import { CategoriesGetManyOutput } from '../types'
+import { CategoriesGetManyOutput } from '../../../../types'
 import Link from 'next/link'
 
 interface Props {
