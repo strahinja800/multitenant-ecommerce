@@ -20,7 +20,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { useTRPC } from '@/trpc/client'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 
 const poppins = Poppins({
@@ -31,15 +31,20 @@ const poppins = Poppins({
 export default function SignUpView() {
   const router = useRouter()
   const trpc = useTRPC()
+  const queryClient = useQueryClient()
 
   const register = useMutation({
     ...trpc.auth.register.mutationOptions(),
+
     onSuccess: () => {
       toast.success('Account created!')
+
+      queryClient.invalidateQueries(trpc.auth.session.queryOptions())
       setTimeout(() => {
         router.push('/')
-      }, 1500)
+      }, 1000)
     },
+
     onError: error => {
       toast.error(`${error.message}`)
     },

@@ -18,9 +18,9 @@ import { Poppins } from 'next/font/google'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { useTRPC } from '@/trpc/client'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
+import { useTRPC } from '@/trpc/client'
 
 const poppins = Poppins({
   subsets: ['latin'],
@@ -30,15 +30,20 @@ const poppins = Poppins({
 export default function SignInView() {
   const router = useRouter()
   const trpc = useTRPC()
+  const queryClient = useQueryClient()
 
   const login = useMutation({
     ...trpc.auth.login.mutationOptions(),
-    onSuccess: () => {
+
+    onSuccess: async () => {
       toast.success('Logged in successfully!')
+
+      await queryClient.invalidateQueries(trpc.auth.session.queryOptions())
       setTimeout(() => {
         router.push('/')
-      }, 1500)
+      }, 1000)
     },
+
     onError: error => {
       toast.error(`${error.message}`)
     },
