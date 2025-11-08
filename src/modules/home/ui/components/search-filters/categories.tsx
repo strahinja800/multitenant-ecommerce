@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 import { ListFilterIcon } from 'lucide-react'
 import CategoriesSidebar from './categories-sidebar'
+import { useParams } from 'next/navigation'
 
 interface Props {
   data: CategoriesGetManyOutput[]
@@ -21,7 +22,10 @@ export default function Categories({ data }: Props) {
   const [isAnyHovered, setIsAnyHovered] = useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
-  const activeCategory = 'all'
+  const params = useParams()
+  const categoryParam = params.category as string | undefined
+
+  const activeCategory = categoryParam || 'all'
 
   const activeCategoryIndex = data.findIndex(cat => cat.slug === activeCategory)
   const isActiveCategoryHidden =
@@ -110,11 +114,10 @@ export default function Categories({ data }: Props) {
           ref={viewAllRef}
         >
           <Button
+            variant={'elevated'}
             className={cn(
-              'h-11 px-4 bg-transparent rounded-full hover:bg-white hover:border-primary text-black ',
-              !isActiveCategoryHidden &&
-                !isAnyHovered &&
-                'bg-white border-primary'
+              'h-11 px-4 bg-transparent rounded-full border border-transparent hover:bg-white hover:border-primary text-black ',
+              isActiveCategoryHidden && 'bg-white border-primary'
             )}
             onClick={() => setIsSidebarOpen(true)}
           >
