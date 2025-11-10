@@ -21,31 +21,32 @@ export default function CategoriesSidebar({ open, onOpenChange }: Props) {
   const trpc = useTRPC()
   const { data } = useQuery(trpc.categories.getMany.queryOptions())
 
-  const [parentCategories, setParentCategories] = useState<
-    CategoriesGetManyOutput[] | null
-  >(null)
+  const [parentCategory, setParentCategory] =
+    useState<CategoriesGetManyOutput | null>(null)
   const [selectedCategory, setSelectedCategory] =
     useState<CategoriesGetManyOutput | null>(null)
 
   // if parent categories exist, show them
 
-  const currentCategories = parentCategories ?? data ?? []
+  const currentCategories = parentCategory
+    ? (parentCategory.subcategories ?? [])
+    : (data ?? [])
 
   const router = useRouter()
 
   function handleOpenChange(open: boolean) {
     setSelectedCategory(null)
-    setParentCategories(null)
+    setParentCategory(null)
     onOpenChange?.(open)
   }
 
   function handleCategoryClick(category: CategoriesGetManyOutput) {
     if (category.subcategories && category.subcategories.length > 0) {
-      setParentCategories(category.subcategories as CategoriesGetManyOutput[])
+      setParentCategory(category)
       setSelectedCategory(category)
     } else {
       // category
-      if (parentCategories && selectedCategory) {
+      if (parentCategory && selectedCategory) {
         // subcategory -- category/subcategory
         router.push(`/${selectedCategory.slug}/${category.slug}`)
       } else {
@@ -62,8 +63,8 @@ export default function CategoriesSidebar({ open, onOpenChange }: Props) {
   }
 
   function handleBackClick() {
-    if (parentCategories) {
-      setParentCategories(null)
+    if (parentCategory) {
+      setParentCategory(null)
       setSelectedCategory(null)
     }
   }
@@ -84,7 +85,7 @@ export default function CategoriesSidebar({ open, onOpenChange }: Props) {
           <SheetTitle>Categories</SheetTitle>
         </SheetHeader>
         <ScrollArea className='flex flex-col overflow-y-auto hfull pb-2'>
-          {parentCategories && (
+          {parentCategory && (
             <button
               onClick={handleBackClick}
               className='w-full text-left hover:bg-black hover:text-white flex items-center text-base font-medium p-4 cursor-pointer'
@@ -95,13 +96,16 @@ export default function CategoriesSidebar({ open, onOpenChange }: Props) {
           {currentCategories.map(category => (
             <button
               key={category.id}
-              onClick={() => handleCategoryClick(category)}
+              onClick={() =>
+                handleCategoryClick(category as CategoriesGetManyOutput)
+              }
               className='w-full text-left hover:bg-black hover:text-white flex justify-between items-center text-base font-medium p-4 cursor-pointer'
             >
               {category.name}
-              {category.subcategories && category.subcategories.length > 0 && (
-                <ChevronRightIcon className='size-4 ml-2' />
-              )}
+              {parentCategory?.subcategories &&
+                parentCategory.subcategories.length > 0 && (
+                  <ChevronRightIcon className='size-4 ml-2' />
+                )}
             </button>
           ))}
         </ScrollArea>
