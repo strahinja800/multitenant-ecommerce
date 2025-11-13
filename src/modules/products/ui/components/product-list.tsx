@@ -51,7 +51,7 @@ export default function ProductList({ category }: Props) {
               name={product.name}
               price={product.price}
               imageUrl={product.image?.url}
-              authorUsername='toni' // Hardcoded for now
+              authorUsername='Marko' // Hardcoded for now
               reviewRating={4} // Hardcoded for now
               reviewCount={9} // Hardcoded for now
               authorImageUrl={undefined} // Hardcoded for now

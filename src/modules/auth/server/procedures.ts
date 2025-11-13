@@ -16,49 +16,68 @@ export const authRouter = createTRPCRouter({
   register: baseProcedure
     .input(registerSchema)
     .mutation(async ({ input, ctx }) => {
-      try {
-        const user = await ctx.payload.create({
-          collection: 'users',
-          data: {
-            email: input.email,
-            password: input.password,
-            username: input.username,
-          },
+      const existingData = await ctx.payload.find({
+        collection: 'users',
+        limit: 1,
+        where: {
+          username: { equals: input.username },
+        },
+      })
+
+      const existingUser = existingData.docs[0]
+
+      if (existingUser) {
+        throw new TRPCError({
+          code: 'BAD_REQUEST',
+          message: 'Username already taken',
         })
+      }
 
-        // Auto-login after registration
-        const loginData = await ctx.payload.login({
-          collection: 'users',
-          data: {
-            email: input.email,
-            password: input.password,
-          },
-        })
+      const tenant = ctx.payload.create({
+        collection: 'tenants',
+        data: {
+          name: input.username,
+          slug: input.username,
+          stripeAccountId: 'test',
+        },
+      })
 
-        if (!loginData.token) {
-          throw new TRPCError({
-            code: 'INTERNAL_SERVER_ERROR',
-            message: 'Failed to generate auth token',
-          })
-        }
+      const user = await ctx.payload.create({
+        collection: 'users',
+        data: {
+          email: input.email,
+          password: input.password,
+          username: input.username,
+          tenants: [{ tenant: (await tenant).id }],
+        },
+      })
 
-        await generateAuthCookie({
-          prefix: ctx.payload.config.cookiePrefix,
-          value: loginData.token,
-        })
+      // Auto-login after registration
+      const loginData = await ctx.payload.login({
+        collection: 'users',
+        data: {
+          email: input.email,
+          password: input.password,
+        },
+      })
 
-        return {
-          success: true,
-          user,
-          token: loginData.token,
-          message: 'Registration successful',
-        }
-      } catch (error) {
+      if (!loginData.token) {
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
-          message:
-            error instanceof Error ? error.message : 'Registration failed',
+          message: 'Failed to generate auth token',
         })
+      }
+
+      await generateAuthCookie({
+        prefix: ctx.payload.config.cookiePrefix,
+        value: loginData.token,
+      })
+
+      return {
+        success: true,
+        user,
+        token: loginData.token,
+        message: 'Registration successful',
       }
     }),
 
