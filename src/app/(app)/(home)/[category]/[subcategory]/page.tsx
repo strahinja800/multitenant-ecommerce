@@ -2,7 +2,7 @@ import { getQueryClient, trpc } from '@/trpc/server'
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
 import { SearchParams } from 'nuqs/server'
 import ProductListView from '@/modules/products/ui/views/product-list-view'
-import { loadProductFilters } from '@/modules/products/search-parms'
+import { loadProductFilters } from '@/modules/products/search-params'
 import { DEFAULT_LIMIT } from '@/modules/home/constants'
 
 interface Props {
