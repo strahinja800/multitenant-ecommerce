@@ -19,7 +19,9 @@ export default function TagsFilter({ value, onChange }: Props) {
         },
         {
           getNextPageParam: lastPage => {
-            return lastPage.docs.length === 0 ? lastPage.nextPage : undefined
+            return lastPage.docs.length === DEFAULT_LIMIT
+              ? lastPage.nextPage
+              : undefined
           },
         }
       )
