@@ -1,8 +1,8 @@
 import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { FORMATED_CURRENCY } from '../../hooks/format-currency'
 import { useRouter } from 'next/navigation'
+import { formatCurrency, generateTenantUrl } from '@/lib/utils'
 
 interface Props {
   id: string
@@ -35,7 +35,7 @@ export default function ProductCard({
 
   return (
     <Link
-      href={`/products/${id}`}
+      href={`${generateTenantUrl(tenantSlug)}/products/${id}`}
       className='h-full'
     >
       <div className='border rounded-md bg-white overflow-hidden h-full flex flex-col hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow'>
@@ -75,7 +75,7 @@ export default function ProductCard({
         </div>
         <div className='p-4'>
           <div className='relative px-2 py-1 border bg-pink-400 w-fit'>
-            <p className='text-sm font-medium'>{FORMATED_CURRENCY(price)}</p>
+            <p className='text-sm font-medium'>{formatCurrency(price)}</p>
           </div>
         </div>
       </div>
