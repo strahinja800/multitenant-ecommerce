@@ -2,7 +2,7 @@ import { StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { formatCurrency, generateTenantUrl } from '@/lib/utils'
+import { formatCurrency, generateTenantURL } from '@/lib/utils'
 
 interface Props {
   id: string
@@ -35,7 +35,7 @@ export default function ProductCard({
 
   return (
     <Link
-      href={`${generateTenantUrl(tenantSlug)}/products/${id}`}
+      href={`${generateTenantURL(tenantSlug)}/products/${id}`}
       className='h-full'
     >
       <div className='border rounded-md bg-white overflow-hidden h-full flex flex-col hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow'>

@@ -1,9 +1,10 @@
 import { useCardStore } from '../store/use-card-store'
 
 export function useCart(tenantSlug: string) {
-  const { addProduct, removeProduct, clearCart, clearAllCarts } = useCardStore()
+  const { addProduct, removeProduct, clearCart, clearAllCarts, tenantCarts } =
+    useCardStore()
 
-  const productIds = useCardStore(state => state.getCartByTenant(tenantSlug))
+  const productIds = tenantCarts[tenantSlug]?.productIds || []
 
   const toggleProductInCart = (productId: string) => {
     if (productIds.includes(productId)) {

@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { cn } from '@/lib/utils'
 import { useCart } from '@/modules/checkout/hooks/use-cart'
 
 interface Props {
@@ -12,7 +13,10 @@ export default function CartButton({ tenantSlug, productId }: Props) {
   return (
     <Button
       variant={'elevated'}
-      className='flex-1 bg-pink-400'
+      className={cn(
+        'flex-1 bg-pink-400',
+        cart.isProductInCart(productId) && 'bg-white'
+      )}
       onClick={() => cart.toggleProductInCart(productId)}
     >
       {cart.isProductInCart(productId) ? 'Remove from Cart' : 'Add to Cart'}

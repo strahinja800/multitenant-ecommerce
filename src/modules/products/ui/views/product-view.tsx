@@ -5,14 +5,27 @@
 import StarRating from '@/components/star-rating'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'
-import { formatCurrency, generateTenantUrl } from '@/lib/utils'
+import { formatCurrency, generateTenantURL } from '@/lib/utils'
 import { useTRPC } from '@/trpc/client'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { LinkIcon, StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment } from 'react/jsx-runtime'
-import CartButton from '../components/cart-button'
+// import CartButton from '../components/cart-button'
+import dynamic from 'next/dynamic'
+
+const CartButton = dynamic(() => import('../components/cart-button'), {
+  ssr: false,
+  loading: () => (
+    <Button
+      disabled
+      className='flex-1 bg-pink-400'
+    >
+      Add to Cart
+    </Button>
+  ),
+})
 
 interface Props {
   productId: string
@@ -53,7 +66,7 @@ export default function ProductView({ productId, tenantSlug }: Props) {
               </div>
               <div className='px-6 py-4 items-center justify-center lg:border-r'>
                 <Link
-                  href={generateTenantUrl(tenantSlug)}
+                  href={generateTenantURL(tenantSlug)}
                   className='flex items-center gap-2'
                 >
                   {data.tenant.image?.url && (

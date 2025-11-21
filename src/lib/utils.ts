@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function generateTenantUrl(tenantSlug: string) {
+export function generateTenantURL(tenantSlug: string) {
   return `/tenants/${tenantSlug}`
 }
 
