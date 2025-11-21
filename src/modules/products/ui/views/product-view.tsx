@@ -12,6 +12,7 @@ import { LinkIcon, StarIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Fragment } from 'react/jsx-runtime'
+import CartButton from '../components/cart-button'
 
 interface Props {
   productId: string
@@ -105,12 +106,10 @@ export default function ProductView({ productId, tenantSlug }: Props) {
             <div className='border-t lg:border-t-0 lg:border-l h-full'>
               <div className='flex flex-col gap-4 p-6 border-b'>
                 <div className='flex items-center gap-2'>
-                  <Button
-                    variant={'elevated'}
-                    className='flex-1 bg-pink-400'
-                  >
-                    Add to cart
-                  </Button>
+                  <CartButton
+                    tenantSlug={tenantSlug}
+                    productId={productId}
+                  />
                   <Button
                     className='size-12'
                     variant={'elevated'}
