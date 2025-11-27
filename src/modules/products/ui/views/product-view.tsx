@@ -120,6 +120,7 @@ export default function ProductView({ productId, tenantSlug }: Props) {
               <div className='flex flex-col gap-4 p-6 border-b'>
                 <div className='flex items-center gap-2'>
                   <CartButton
+                    isPurchased={data.isPurchased}
                     tenantSlug={tenantSlug}
                     productId={productId}
                   />
