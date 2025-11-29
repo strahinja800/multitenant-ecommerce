@@ -79,6 +79,7 @@ export async function POST(req: Request) {
                 product: item.price.product.metadata.id,
                 name: item.price.product.name,
               },
+              draft: false,
             })
           }
           break
