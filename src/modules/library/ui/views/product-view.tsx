@@ -16,6 +16,7 @@ export default function ProductView({ productId }: Props) {
     trpc.library.getOne.queryOptions({ productId })
   )
 
+
   return (
     <div className='min-h-screen bg-white'>
       <nav className='p-4 bg-[#f4f4f0] w-full border-b'>
