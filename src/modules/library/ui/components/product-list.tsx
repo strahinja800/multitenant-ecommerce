@@ -46,8 +46,8 @@ export default function ProductList() {
               name={product.name}
               imageUrl={product.image?.url}
               tenantSlug={product.tenant?.slug}
-              reviewRating={4} // Hardcoded for now
-              reviewCount={9} // Hardcoded for now
+              reviewRating={product.reviewRating}
+              reviewCount={product.reviewCount}
               tenantImageUrl={product.tenant?.image?.url}
             />
           ))}
