@@ -58,8 +58,8 @@ export default function ProductList({ category, tenantSlug }: Props) {
               price={product.price}
               imageUrl={product.image?.url}
               tenantSlug={product.tenant?.slug}
-              reviewRating={4} // Hardcoded for now
-              reviewCount={9} // Hardcoded for now
+              reviewRating={product.reviewRating}
+              reviewCount={product.reviewCount}
               tenantImageUrl={product.tenant?.image?.url}
             />
           ))}
