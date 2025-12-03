@@ -1,9 +1,17 @@
+import { isSuperAdmin } from '@/lib/access'
 import { CollectionConfig } from 'payload'
 
 export const Reviews: CollectionConfig = {
   slug: 'reviews',
+  access: {
+    read: ({ req }) => isSuperAdmin(req.user),
+    create: ({ req }) => isSuperAdmin(req.user),
+    delete: ({ req }) => isSuperAdmin(req.user),
+    update: ({ req }) => isSuperAdmin(req.user),
+  },
   admin: {
     useAsTitle: 'description',
+    hidden: ({ user }) => !isSuperAdmin(user),
   },
   fields: [
     {

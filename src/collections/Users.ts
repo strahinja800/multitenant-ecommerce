@@ -1,5 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
+import { isSuperAdmin } from '@/lib/access'
 
 const defaultTenanrArrayField = tenantsArrayField({
   tenantsArrayFieldName: 'tenants',
@@ -7,8 +8,8 @@ const defaultTenanrArrayField = tenantsArrayField({
   tenantsArrayTenantFieldName: 'tenant',
   arrayFieldAccess: {
     read: () => true,
-    create: () => true,
-    update: () => true,
+    create: ({ req }) => isSuperAdmin(req.user),
+    update: ({ req }) => isSuperAdmin(req.user),
   },
   tenantFieldAccess: {
     read: () => true,
@@ -19,8 +20,19 @@ const defaultTenanrArrayField = tenantsArrayField({
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  access: {
+    read: () => true,
+    create: ({ req }) => isSuperAdmin(req.user),
+    delete: ({ req }) => isSuperAdmin(req.user),
+    update: ({ req, id }) => {
+      if (isSuperAdmin(req.user)) return true
+
+      return req.user?.id === id
+    },
+  },
   admin: {
     useAsTitle: 'email',
+    hidden: ({ user }) => !isSuperAdmin(user),
   },
   auth: true,
   fields: [
@@ -51,6 +63,9 @@ export const Users: CollectionConfig = {
       defaultValue: ['user'],
       hasMany: true,
       options: ['super-admin', 'user'],
+      access: {
+        update: ({ req }) => isSuperAdmin(req.user),
+      },
     },
     {
       ...defaultTenanrArrayField,
