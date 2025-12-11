@@ -57,8 +57,10 @@ export const Tenants: CollectionConfig = {
     {
       name: 'stripeDetailsSubmitted',
       type: 'checkbox',
+      access: {
+        update: ({ req }) => isSuperAdmin(req.user),
+      },
       admin: {
-        readOnly: true,
         description:
           'You cannot create products until you submit your Stripe details`',
       },

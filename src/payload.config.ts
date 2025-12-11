@@ -16,6 +16,7 @@ import { Tags } from './collections/Tags'
 import { Tenants } from './collections/Tenants'
 import { Orders } from './collections/Orders'
 import { Reviews } from './collections/Reviews'
+import { Library } from './collections/Library'
 import { isSuperAdmin } from './lib/access'
 
 const filename = fileURLToPath(import.meta.url)
@@ -27,6 +28,9 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      beforeNavLinks: ['@/components/stripe-verify#StripeVerify'],
+    },
   },
   collections: [
     Users,
@@ -37,6 +41,7 @@ export default buildConfig({
     Tenants,
     Orders,
     Reviews,
+    Library,
   ],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',

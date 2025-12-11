@@ -28,7 +28,10 @@ export async function POST(req: Request) {
 
   console.log('✅ Success:', event.id)
 
-  const permittedEvenets: string[] = ['checkout.session.completed']
+  const permittedEvenets: string[] = [
+    'checkout.session.completed',
+    'account.updated',
+  ]
 
   const payload = await getPayload({ config })
 
@@ -57,6 +60,9 @@ export async function POST(req: Request) {
             data.id,
             {
               expand: ['line_items.data.price.product'],
+            },
+            {
+              stripeAccount: event.account,
             }
           )
 
@@ -71,17 +77,47 @@ export async function POST(req: Request) {
             .data as ExpandedLineItem[]
 
           for (const item of lineItems) {
+            const stripeAccountId =
+              item.price.product.metadata.stripeAccId || ''
+
+            // Create order
             await payload.create({
               collection: 'orders',
               data: {
                 stripeCheckoutSessionId: data.id,
+                stripeAccountId: stripeAccountId,
                 user: user.id,
                 product: item.price.product.metadata.id,
                 name: item.price.product.name,
               },
-              draft: false,
+            })
+
+            // Add product to user's library
+            await payload.create({
+              collection: 'library',
+              data: {
+                user: user.id,
+                product: item.price.product.metadata.id,
+                purchaseDate: new Date().toISOString(),
+              },
             })
           }
+          break
+
+        case 'account.updated':
+          data = event.data.object as Stripe.Account
+
+          await payload.update({
+            collection: 'tenants',
+            where: {
+              stripeAccountId: {
+                equals: data.id,
+              },
+            },
+            data: {
+              stripeDetailsSubmitted: data.details_submitted,
+            },
+          })
           break
 
         default: {

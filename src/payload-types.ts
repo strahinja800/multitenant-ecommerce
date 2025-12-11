@@ -75,6 +75,7 @@ export interface Config {
     tenants: Tenant;
     orders: Order;
     reviews: Review;
+    library: Library;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -93,6 +94,7 @@ export interface Config {
     tenants: TenantsSelect<false> | TenantsSelect<true>;
     orders: OrdersSelect<false> | OrdersSelect<true>;
     reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    library: LibrarySelect<false> | LibrarySelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -225,6 +227,8 @@ export interface Category {
   createdAt: string;
 }
 /**
+ * You must verify your account before creating products
+ *
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "products".
  */
@@ -272,6 +276,10 @@ export interface Order {
    * Checkout session associated with the order
    */
   stripeCheckoutSessionId: string;
+  /**
+   * Account associated with the order
+   */
+  stripeAccountId: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -285,6 +293,18 @@ export interface Review {
   rating: number;
   product: string | Product;
   user: string | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "library".
+ */
+export interface Library {
+  id: string;
+  user: string | User;
+  product: string | Product;
+  purchaseDate: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -326,6 +346,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'reviews';
         value: string | Review;
+      } | null)
+    | ({
+        relationTo: 'library';
+        value: string | Library;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -480,6 +504,7 @@ export interface OrdersSelect<T extends boolean = true> {
   user?: T;
   product?: T;
   stripeCheckoutSessionId?: T;
+  stripeAccountId?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -492,6 +517,17 @@ export interface ReviewsSelect<T extends boolean = true> {
   rating?: T;
   product?: T;
   user?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "library_select".
+ */
+export interface LibrarySelect<T extends boolean = true> {
+  user?: T;
+  product?: T;
+  purchaseDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
