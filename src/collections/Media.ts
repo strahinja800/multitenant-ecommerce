@@ -8,7 +8,7 @@ export const Media: CollectionConfig = {
     delete: ({ req }) => isSuperAdmin(req.user),
   },
   admin: {
-    hidden: ({ user }) => !isSuperAdmin(user),
+    // hidden: ({ user }) => !isSuperAdmin(user),
   },
   fields: [
     {
@@ -17,5 +17,7 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    allowRestrictedFileTypes: true,
+  },
 }

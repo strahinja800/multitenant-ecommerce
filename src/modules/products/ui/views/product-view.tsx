@@ -16,6 +16,7 @@ import { Fragment } from 'react/jsx-runtime'
 import dynamic from 'next/dynamic'
 import { toast } from 'sonner'
 import { useState } from 'react'
+import { RichText } from '@payloadcms/richtext-lexical/react'
 
 const CartButton = dynamic(() => import('../components/cart-button'), {
   ssr: false,
@@ -125,7 +126,7 @@ export default function ProductView({ productId, tenantSlug }: Props) {
 
             <div className='p-6'>
               {data.description ? (
-                <p>{data.description}</p>
+                <RichText data={data.description} />
               ) : (
                 <p className='font-medium text-muted-foreground italic'>
                   No description provided
