@@ -79,5 +79,14 @@ export const Products: CollectionConfig = {
         description: 'Archive product',
       },
     },
+    {
+      name: 'isPrivate',
+      label: 'Private',
+      defaultValue: false,
+      type: 'checkbox',
+      admin: {
+        description: 'Make your product private',
+      },
+    },
   ],
 }

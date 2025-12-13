@@ -253,6 +253,10 @@ export interface Product {
    * Archive product
    */
   isArchived?: boolean | null;
+  /**
+   * Make your product private
+   */
+  isPrivate?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -474,6 +478,7 @@ export interface ProductsSelect<T extends boolean = true> {
   refundPolicy?: T;
   content?: T;
   isArchived?: T;
+  isPrivate?: T;
   updatedAt?: T;
   createdAt?: T;
 }
