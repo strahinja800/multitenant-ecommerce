@@ -6,6 +6,7 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useTRPC } from '@/trpc/client'
 import ReviewSidebar from '@/modules/library/ui/components/review-sidebar'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { SerializedEditorState } from 'lexical'
 import { Suspense } from 'react'
 import { ReviewFormLoading } from '../components/review-form'
 
@@ -47,7 +48,9 @@ export default function ProductView({ productId }: Props) {
           </div>
           <div className='lg:col-span-5'>
             {data.content ? (
-              <RichText data={data.content} />
+              <RichText
+                data={data.content as unknown as SerializedEditorState}
+              />
             ) : (
               <p className='font-medium italic text-muted-foreground'>
                 No Special Content

@@ -17,6 +17,7 @@ import dynamic from 'next/dynamic'
 import { toast } from 'sonner'
 import { useState } from 'react'
 import { RichText } from '@payloadcms/richtext-lexical/react'
+import type { SerializedEditorState } from 'lexical'
 
 const CartButton = dynamic(() => import('../components/cart-button'), {
   ssr: false,
@@ -126,7 +127,9 @@ export default function ProductView({ productId, tenantSlug }: Props) {
 
             <div className='p-6'>
               {data.description ? (
-                <RichText data={data.description} />
+                <RichText
+                  data={data.description as unknown as SerializedEditorState}
+                />
               ) : (
                 <p className='font-medium text-muted-foreground italic'>
                   No description provided
