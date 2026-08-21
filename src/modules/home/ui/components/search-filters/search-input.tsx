@@ -3,7 +3,7 @@
 import { Input } from '@/components/ui/input'
 import { BookmarkCheckIcon, ListFilterIcon, SearchIcon } from 'lucide-react'
 import CategoriesSidebar from './categories-sidebar'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { useTRPC } from '@/trpc/client'
 import { useQuery } from '@tanstack/react-query'
@@ -11,14 +11,27 @@ import Link from 'next/link'
 
 interface Props {
   disabled?: boolean
+  defaultValue?: string
+  onChange?: (value: string) => void
 }
 
-export default function SearchInput({ disabled }: Props) {
+export default function SearchInput({
+  disabled,
+  defaultValue,
+  onChange,
+}: Props) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [searchValue, setSearchValue] = useState(defaultValue || '')
   const trpc = useTRPC()
   const session = useQuery(trpc.auth.session.queryOptions())
 
-  // render Library button
+  // Nuqs has no built-in debounce, so hold the value locally and only push it
+  // to the URL once typing settles.
+  useEffect(() => {
+    const timeoutId = setTimeout(() => onChange?.(searchValue), 500)
+
+    return () => clearTimeout(timeoutId)
+  }, [searchValue, onChange])
 
   return (
     <div className='flex items-center gap-2 w-full'>
@@ -30,11 +43,12 @@ export default function SearchInput({ disabled }: Props) {
         <SearchIcon className='absolute left-3 top-1/2 -translate-y-1/2 size-4 text-neutral-500' />
         <Input
           className='pl-8'
-          placeholder='Search poducts'
+          placeholder='Search products'
           disabled={disabled}
+          value={searchValue}
+          onChange={e => setSearchValue(e.target.value)}
         />
       </div>
-      {/* TODO: Add categories view all -- only for mobile */}
       <Button
         variant={'elevated'}
         className='size-12 shrink-0 flex lg:hidden'
@@ -56,7 +70,6 @@ export default function SearchInput({ disabled }: Props) {
           </Link>
         </Button>
       )}
-      {/* TODO: Add library button -- only when logged in */}
     </div>
   )
 }
