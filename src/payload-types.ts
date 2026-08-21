@@ -279,11 +279,11 @@ export interface Product {
     [k: string]: unknown;
   } | null;
   /**
-   * Archive product
+   * If checked, this product will be archived
    */
   isArchived?: boolean | null;
   /**
-   * Make your product private
+   * If checked, this product will not be shown on the public storefront
    */
   isPrivate?: boolean | null;
   updatedAt: string;

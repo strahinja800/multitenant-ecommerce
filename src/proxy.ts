@@ -13,9 +13,9 @@ export const config = {
   ],
 }
 
-export default async function middleware(req: NextRequest) {
+export default async function proxy(req: NextRequest) {
   const url = req.nextUrl
-  // Extracty the hostname (e.g. 'beli.funroad.com')
+  // Extract the hostname (e.g. 'beli.funroad.com')
   const hostname = req.headers.get('host') || ''
 
   const rootDomain = process.env.NEXT_PUBLIC_ROOT_DOMAIN || ''

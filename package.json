@@ -10,7 +10,7 @@
     "lint": "eslint",
     "generate:types": "payload generate:types",
     "db:fresh": "payload migrate:fresh",
-    "db:seed": "bun run src/seed.ts",
+    "db:seed": "payload run src/seed.ts",
     "db:reset": "bun run db:fresh && bun run db:seed"
   },
   "dependencies": {
