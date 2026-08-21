@@ -34,7 +34,17 @@ export const Users: CollectionConfig = {
     useAsTitle: 'email',
     hidden: ({ user }) => !isSuperAdmin(user),
   },
-  auth: true,
+  auth: {
+    // Payload expires the logout cookie from this config, so it has to match
+    // whatever generateAuthCookie set, guarded the same way.
+    ...(process.env.NODE_ENV !== 'development' && {
+      cookies: {
+        sameSite: 'None' as const,
+        domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+        secure: true,
+      },
+    }),
+  },
   fields: [
     {
       name: 'username',

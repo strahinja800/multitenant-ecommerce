@@ -13,9 +13,12 @@ export async function generateAuthCookie({ prefix, value }: Props) {
     value: value,
     httpOnly: true,
     path: '/',
-    // TODO: ensure cross-domain cookie sharing
-    sameSite: 'none',
-    domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
-    secure: process.env.NODE_ENV === 'production',
+    // Cross-domain sharing is only valid outside development. On localhost
+    // `SameSite=None` needs `Secure`, and `Domain` cannot carry a port.
+    ...(process.env.NODE_ENV !== 'development' && {
+      sameSite: 'none' as const,
+      domain: process.env.NEXT_PUBLIC_ROOT_DOMAIN,
+      secure: true,
+    }),
   })
 }
