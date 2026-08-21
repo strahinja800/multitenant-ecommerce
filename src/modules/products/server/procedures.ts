@@ -114,6 +114,7 @@ export const productsRouter = createTRPCRouter({
         tags: z.array(z.string()).nullable().optional(),
         sort: z.enum(sortValues).nullable().optional(),
         tenantSlug: z.string().nullable().optional(),
+        search: z.string().nullable().optional(),
       })
     )
     .query(async ({ ctx, input }) => {
@@ -197,6 +198,12 @@ export const productsRouter = createTRPCRouter({
       if (input.tags && input.tags.length > 0) {
         where['tags.name'] = {
           in: input.tags,
+        }
+      }
+
+      if (input.search) {
+        where.name = {
+          like: input.search,
         }
       }
 
