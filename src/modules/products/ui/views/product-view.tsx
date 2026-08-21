@@ -1,7 +1,5 @@
 'use client'
 
-// TODO: Add real ratings
-
 import StarRating from '@/components/star-rating'
 import { Button } from '@/components/ui/button'
 import { Progress } from '@/components/ui/progress'

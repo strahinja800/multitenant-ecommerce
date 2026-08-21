@@ -86,8 +86,9 @@ export const productsRouter = createTRPCRouter({
         Object.keys(ratingDistribution).forEach(key => {
           const rating = Number(key)
           const count = ratingDistribution[rating] || 0
-          ratingDistribution[rating] =
-            Math.round(count / reviews.totalDocs) * 100
+          ratingDistribution[rating] = Math.round(
+            (count / reviews.totalDocs) * 100
+          )
         })
       }
 

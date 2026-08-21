@@ -26,7 +26,6 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'description',
-      // TODO: Change to RichText
       type: 'richText',
     },
     {
@@ -63,7 +62,6 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'content',
-      // TODO: Change to RichText
       type: 'richText',
       admin: {
         description:
@@ -76,7 +74,7 @@ export const Products: CollectionConfig = {
       defaultValue: false,
       type: 'checkbox',
       admin: {
-        description: 'Archive product',
+        description: 'If checked, this product will be archived',
       },
     },
     {
@@ -85,7 +83,8 @@ export const Products: CollectionConfig = {
       defaultValue: false,
       type: 'checkbox',
       admin: {
-        description: 'Make your product private',
+        description:
+          'If checked, this product will not be shown on the public storefront',
       },
     },
   ],
